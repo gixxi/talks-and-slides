@@ -132,3 +132,15 @@ Diese Leseoperationen konkurrieren nie, sind also parallelisierbar.
 Wenn ich nun einen Preis P2 innerhalb einer Aktivität AP2 schreibe, dann setze ich einen Write-lock auf dem Preis, auf dem Preisdreieck sowie der TU.
 
 Der Punkt ist nun, dass Schreibsperren und Sperranwartschaften (Intentional Locks) auf einem Element der Sperrdomäne. Nicht kompatibel sind, ergo muss einer auf den anderen Warten resp. müssen die Zeitpläne dies entsprechend berücksichtigen.
+
+Genau das gleiche machen RDBMS auf Relationenbasis ohne direkten Domänenbezug, weswegen sich das Aufteilen der Daten auf mehrere Tabellen und ab bestimmter Datengrösse
+eine weitere Segmentierung der Daten lohnen kann (z.B. Index-Partionierung): Row-Locks, Page-Locks, Extend-Locks (z.B. MSSQL), Page-Locks ... Lock Escalation.
+
+Achtung, Achtung, Achtung: niemals auf RDBMs und OR-Mapper wie Hibernate verlassen, Funktionen mittels Transaktionen zu kapseln ist kein Garant gegen Dead-Locks, vielmehr ist das unbedarfte
+@Transactional, @Transactional(Propagation=REQUIRES...) der Garant für Dead-locks), da weder Hibernate noch das DBMS die genuine Intelligenz eines Menschen zur Definition eines Zeitplanes für *potentiell* konkurrierende Transaktionen.
+
+Warum nun schon wieder potentiell: 
+
+(1) Weil ich in der Praxis die Konflikt-Serialisierung und nicht die View Serialisierung anstrebe
+(2) Weil ich mit der Bereitstellung eines Zeitplanes die Konflikt-Serialisierung a priori anstrebe (Pessimistisches Sperren)
+-> anstreben ... *Anspruch und Wirklichkeit* :)
