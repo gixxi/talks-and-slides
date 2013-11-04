@@ -31,12 +31,13 @@ kann passieren wenn mehrkanaliges IPC und Lokale Transaktionalität gegeneinande
 Lock-based synchronisation: Alles was gefährlich ist, wird synchronisiert, Aufwand für Konfliktbewältigung ist 0, Aufwand fürs Sinnfreie Warten vor
 der Gartentür in der Hoffnung, dass der Böse Hund im Garten ist dagegen gross, obwohl der Hund nur selten rauskommt.
 
-Alternative 1: Teureren Singlecore Prozessor mit mehr Gigaherz, schnellerer I/O (einfach, aber zunehmend begrenzt)
-Alternative 2: Partionieren des Systems (horizontale) und der Anfragen auf das System (einfach und gut)
+####Alternative 1: Teureren Singlecore Prozessor mit mehr Gigaherz, schnellerer I/O (einfach, aber zunehmend begrenzt)####
+
+####Alternative 2: Partionieren des Systems (horizontale) und der Anfragen auf das System (einfach und gut)####
 
 vor weiteren Alternativen (vor allem der nächsten) immer 1 und 2 prüfen, ist mit wenig Kopfschmerz verbunden
 
-Alternative 3: Identifikation parallelisierbarer Unteraufgaben und möglichst Automatische Parallisierung (z.B. Fork-Join)
+####Alternative 3: Identifikation parallelisierbarer Unteraufgaben und möglichst Automatische Parallisierung (z.B. Fork-Join)####
 
 Das ist recht einfach, wenn Anwendungsdesign map-reduce freundlich ist: 
 
@@ -75,7 +76,7 @@ z.b.
 </pre>
     
 
-Alternative 4: Aufteilen einer Aufgabe in parallelisierbare Unteraufgaben und manuelles parallelisieren
+####Alternative 4: Aufteilen einer Aufgabe in parallelisierbare Unteraufgaben und manuelles parallelisieren####
 
 Das ist reduzierbar auf das rucksack problem, dieses ist im allgemeinfall leider np-vollständig: warum weshalb.
 
@@ -144,3 +145,7 @@ Warum nun schon wieder potentiell:
 (1) Weil ich in der Praxis die Konflikt-Serialisierung und nicht die View Serialisierung anstrebe
 (2) Weil ich mit der Bereitstellung eines Zeitplanes die Konflikt-Serialisierung a priori anstrebe (Pessimistisches Sperren)
 -> anstreben ... *Anspruch und Wirklichkeit* :)
+
+####Alternative 5 - Implizites Erzwingen der Konfliktfreiheit durch (fine-grainded) Konfliktvermeidung resp. Konfliktauflösung####
+
+* *Strong strict 2-phase locking* Jedes Datum, welches gelesen oder geschrieben wird, wird am Anfang der Transaktion gespeert und zwingend erst am ende der transaktion freigegeben. Problem: Programming in the large - grosses team, viele leute, transaktionspropagierung, wie werden die sperren von den funktionen und unterfunktionen (innerhalb einer transaktion) eingesammelt<br/> -> design pattern: transactionprovider per code instrumentation
