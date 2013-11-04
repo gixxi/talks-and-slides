@@ -1,3 +1,7 @@
+<pre>
+Notizen zum Vortrag Software Transaction Memory (STM) am 26.11.2013 @ SBB
+</pre>
+
 #Software Transactional Memory @ SBB#
 
 ##Was ist eine Transaktion##
@@ -73,7 +77,7 @@ z.b.
 
 Alternative 4: Aufteilen einer Aufgabe in parallelisierbare Unteraufgaben und manuelles parallelisieren
 
-Das ist reduzierbar auf das rucksack problem, dieses ist np-vollständig: warum weshalb.
+Das ist reduzierbar auf das rucksack problem, dieses ist im allgemeinfall leider np-vollständig: warum weshalb.
 
 es geht um das thema conflict-serialisierbarkeit und view-serialisierbarkeit von zeitplänen. ein programm ist
 eine art zeitplan, wann (transitiv oder referenziel gemeint) passiert was.
@@ -87,4 +91,44 @@ conflict serialisierung = "coarse grained" view serialisierung
 
 jeder view-serialisierte Zeitplan ist auch conflikt-serialisiert, aber nicht umgekehrt.
 
-noch ein wichtiger satz zu diesem thema:
+Laufzeit-Complexität der Prüfung von View-Serialisierung: NP-Complete (something const^n, where n denotes the number of activities in the schedule)
+Laufzeit-Complexität der Prüfung von Conflict-Serialisierung: Linear
+
+Für STM brauchen wir genau diese Prüfung der Conflict-Serialisierung.
+
+Bleiben wir aber mal noch bei *Alternative 4: Aufteilen einer Aufgabe in parallelisierbare Unteraufgaben und manuelles
+parallelisieren". 
+
+Ich prüfe *nicht* zur Laufzeit, ob n (zwei...8 gekippt) Zeitpläne conflict-serialisiert sind, um dead-locks zu vermeiden, sondern ich stelle
+als ich als Programmierer stelle eine Serialisierung bereit. Manchmal unterstützt mich die Technologie bereit.
+
+Was ist das übliche Vorgehen dabi: *Intentional Locking* = *Sperranwartschaft*
+
+Wir unterscheiden also zwischen Exclusive Locks und Intentional Locks und arbeiten auf einer Sperrdomäne, welcher jedes
+Objekt unserer Fachdomäne/zu sperrenden Domäne zuordenbar ist.
+
+Die Sperrdomäne kann als Menge von geordneten Mengen, die zueinander in echter Teilmengenbeziehung zueinander stehen, beschrieben werden
+
+Sperrdomäne = [A,B,C,D]
+A= [A1...An]
+B= [A1...An]
+
+nun muss gelten,
+
+falls Objekt X1 in A1 ist
+und Objekt X2 in A1 ist
+und A1 e A2 ist, dann muss auch X1,X2 e A2 sein.
+
+Wir bleiben mal in unserer Domäne Zug
+
+Wir haben Preise in Preisdreiecken, Preisdreiecke gehören zu einer TU
+Wir gehen davon aus, dass Funktionen niemals TU übergreifens arbeiten (also keine Reports ala "Rückgabe der Summe aller Preise über alle TUs")
+
+Wenn ich nun einen Preis P1 innerhalb einer Aktivität AP1 lese, setze ich einen Intentionallock auf dem Preis selber, auf dem entsprechenden Preisdreieck A, auf der TU
+Wenn ich nun einen Preis P2 innerhalb einer Aktivität AP2 lese, setze ich einen Intentionallock auf dem Preis selber, auf dem entsprechenden Preisdreieck, auf der TU
+
+Diese Leseoperationen konkurrieren nie, sind also parallelisierbar.
+
+Wenn ich nun einen Preis P2 innerhalb einer Aktivität AP2 schreibe, dann setze ich einen Write-lock auf dem Preis, auf dem Preisdreieck sowie der TU.
+
+Der Punkt ist nun, dass Schreibsperren und Sperranwartschaften (Intentional Locks) auf einem Element der Sperrdomäne. Nicht kompatibel sind, ergo muss einer auf den anderen Warten resp. müssen die Zeitpläne dies entsprechend berücksichtigen.
