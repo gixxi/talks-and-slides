@@ -7,10 +7,10 @@ Kriterien für Sichtbarkeit, Abgrenzung und Dauerhaftigkeit.
 
 ##Was ist ACID##
 
-Atomar - Alles oder nichts
-Consistent - Daten gehen nicht kaputt, sind nach der Transaktion in einem konsistenten, hier sinnvollen, Zustand 
-Isolated - Zwischenergebnisse sind für unbeteiligte nicht resp. nur auf bestimmte Arten sichtbar
-Durable - Das Ergebnis einer Transaktion ist dauerhaft sichtbar auch bei einem der Transaktion nachgelagerten Crash
+* Atomar - Alles oder nichts
+* Consistent - Daten gehen nicht kaputt, sind nach der Transaktion in einem konsistenten, hier sinnvollen, Zustand 
+* Isolated - Zwischenergebnisse sind für unbeteiligte nicht resp. nur auf bestimmte Arten sichtbar
+* Durable - Das Ergebnis einer Transaktion ist dauerhaft sichtbar auch bei einem der Transaktion nachgelagerten Crash
 
 ##Was ist Software Transactional Memory##
 
@@ -52,6 +52,7 @@ wir eine Aktivität der Eingabe, eine Aktivität für das + 5, eine aktivität f
 
 wie machen wir dies nun in clojure: start 15:13 -> 15:25
 
+<pre>
 (def plus (agent {}))
 (def durch (agent {}))
 (def gibaus (agent {}))
@@ -67,7 +68,7 @@ z.b.
 z.b.
 (doseq [r 100]
 	(send plus assoc :a r))
-    
+</pre>
     
 
 Alternative 4: Aufteilen einer Aufgabe in parallelisierbare Unteraufgaben und manuelles parallelisieren
@@ -79,6 +80,10 @@ eine art zeitplan, wann (transitiv oder referenziel gemeint) passiert was.
 
 * view serialisierbar: zwei zeitpläne A,B sind view serialisiert, gdw. die zeitpläne so verzahnt sind, dass eine Aktivität aus A niemals "gleichzeitig" mit Aktivität aus B ein Datum X schreibt und liesst.
 * conflict serialisiert: zwei zeitpläne A,B sind conflict serialisiert, gdw. die zeitpläne so verzahn sind, dass die Aktivitäten aus A und B welche in "Konflikt" mit einander stehen, zeitlich streng monoton geordnet sind.
+ 
+Man könnte auch sagen, conflict serialisierung ist ein spezialfall von view serialisierung oder 
+
+conflict serialisierung = "coarse grained" view serialisierung
 
 jeder view-serialisierte Zeitplan ist auch conflikt-serialisiert, aber nicht umgekehrt.
 
