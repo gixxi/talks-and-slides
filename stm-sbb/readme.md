@@ -20,7 +20,7 @@ Kriterien für Sichtbarkeit, Abgrenzung und Dauerhaftigkeit.
 
 STM is ACID ohne D. Also ACI. Wofür brauchen wir das: *für Concurrency Controll* von mehreren Prozessen welche auf n Inhalte in einem 
 Shared Memory Zugreifen. Z.b. Java Threads auf eine JVM Heap.
-"Concurrency Controll" ist notwendig, seit es Prozesse, Threads oder auch nur Interupts gibt. Wo ist also der New Deal.
+"Concurrency Control" ist notwendig, seit es Prozesse, Threads oder auch nur Interupts gibt. Wo ist also der New Deal.
 Es gab schon immer eine Alternative: Lock-based synchronisation, ist eine super-sache, funktioniert meistens!!!!
 
 warum nur meistens, wer hat schon mal ISOLATION-LEVEL von nem DMBS auf serialized gestellt und nix ging mehr:
@@ -152,3 +152,21 @@ Warum nun schon wieder potentiell:
 * *Precendence Graph Cycle Elimination (2PL)* Vorgängiges Aufzeichnen des Precedence Graphen (es gibt zwischen Aktivität A und B genau dann eine Kante, wenn die Korrektheit der Durchführung von B nur gewährleistet ist, wenn A komplett durchgelaufen ist. Eliminierung der Zyklen.
 * *Timestamp ordering (TO)* Zentrales Konstrukt sind global gültige, disjunkte Zeitstempel. Vereinfacht gesagt, bekommt jede Transaktion bei Begin einen Zeitstempel TS. Jedes Lesen resp. Schreiben eines Datum stellt als Nachbedingung das Setzen eines Zeitstempels (RTS=Lesen, WTS=Schreiben) sicher und stellt gewisse Vorbedingungen an die bereits gesetzten Zeitstempel. Lesen: WTS < TS (Letztes Schreiben muss vor Transaktionsbegin stattgefunden haben). Schreiben: RTS < TS (Eine Andere Aktivität bedingt bereits den alten Wert), WTS < TS (Thomas Write Rule), letzteres klingt so kompliziert, aber man kann es folgendermassen darstellen: "The rule prevents changes in the order in which the transactions are executed from creating different outputs: The outputs will always be consistent with the predefined logical order." - auf gut deutsch: die regel stellt sicher, dass das ergebnis (der zustand der DB) bei gleicher Eingabe nur von der Reihenfolge des Starts der Tx abhängt und nicht vom Zufall resp. den Unwägbarkeiten des Multithreadings. <br/> _Ist das Wirklich lockfrei_ Nun ja, kommt auf die Perspektive an: Die Bindung der Zeitstempel an die Objekte impliziert auch einen Lock, wenn auch nur für kurze Zeit, dafür aber sehr sehr viele.
 * *Snapshot Isolation* Eine Transaktion hat Zugriff auf den letzten commiteten Stand der zu lesenden Werte bei Start der Transaktion. Ein Commit der Transaktion erfolgt nur, wenn alle durch die Transaktion geänderten Werte nicht mit Updates anderer Transaktionen kollidieren, welche nach dem Start dieser Transaktion durchgeführt wurden. Dieses Verfahren nutzt ebenfalls Zeitstempelinformationen auf Daten und Transaktion. Snapshot Isolation bedient sich meistens Multiversion Concurrency Control (MVCC) für die Daten(strukturen). <br/> _Ist nun alles gut_
+
+####Zu Snapshot Isolation####
+
+F: Ist nun alles gut. A: Nicht per se.
+
+Folgendes Klassisches Beispiel: Konto A 100 CHF, Konto B 100 CHF, Bedingung der Bank: A+B >= 0. TxA: Von A 100 CHF abheben. TxB: Von B 100 CHF abheben.
+
+Tx(Konto, Amount):
+	A,B lesen
+	Konto um Amount erleichtern
+	Invarianz prüfen
+	fertig.
+	
+Zwei konkurrierende Transaktionen die genau eins der beiden Konten erleichtern wollen, führen nicht zur Verletzung der Invarianz. Transaktionen auf verschiedenen Konten dagegen schon.
+
+Warum: Invarianz ist eine semantische Verschränkung zweier Speicherzellen.
+
+Also: Programmierer muss genuine Intelligenz walten lassen und die Invarianz einprogrammieren, auch bei Nutzung von STM.
