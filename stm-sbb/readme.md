@@ -56,6 +56,7 @@ IDE
 
 vim mit fireplace, vim-classpath und vim-clojure-static
 eclipse-all-in-one
+lighttable
 
 ##Was ist eine Transaktion##
 
