@@ -4,6 +4,59 @@ Notizen zum Vortrag Software Transaction Memory (STM) am 26.11.2013 @ SBB
 
 #Software Transactional Memory @ SBB#
 
+##Setup##
+
+JDK
+
+java version "1.7.0_17"
+Java(TM) SE Runtime Environment (build 1.7.0_17-b02)
+Java HotSpot(TM) 64-Bit Server VM (build 23.7-b01, mixed mode)
+
+Clojure
+
+Clojure 1.5.1
+
+Build
+
+Leiningen 2.3.1
+
+Build #2
+
+Clojure Maven Plugin
+<pre>
+		<plugins>
+			<plugin>
+				<groupId>com.theoryinpractise</groupId>
+				<artifactId>clojure-maven-plugin</artifactId>
+				<version>1.3.13</version>
+				<configuration>
+					<sourceDirectories>
+						<sourceDirectory>src/main/clojure</sourceDirectory>
+					</sourceDirectories>
+					<testSourceDirectories>
+						<testSourceDirectory>
+							src/test/clojure</testSourceDirectory>
+					</testSourceDirectories>
+				</configuration>
+				<executions>
+					<execution>
+						<id>compile-clojure</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+<pre>
+
+... und dann einfach mvn clojure:nrepl
+
+IDE
+
+vim mit fireplace, vim-classpath und vim-clojure-static
+eclipse-all-in-one
+
 ##Was ist eine Transaktion##
 
 Ist der koordinierte Zugriff auf n Inhalte durch p Prozesse, wobei n,p E N+ unter Sicherstellung bestimmter
