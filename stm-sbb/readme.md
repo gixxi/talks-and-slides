@@ -58,6 +58,38 @@ vim mit fireplace, vim-classpath und vim-clojure-static
 eclipse-all-in-one
 lighttable
 
+###Zusammenarbeit VIM nRepl###
+
+1. nrepl starten in projektverzeichnis: lein repl
+2. vim starten in projektverzeichnis: vim
+3. eines der clojure files editieren/öffnen
+3. vim mit nrepl connecten: :Connect nrepl://127.0.0.1:55849
+
+:Require für ganzen file in repl compilieren und importieren (clojure import)
+:Eval für evaluation des aktuellen lexigrafischen scopes
+
+*VIM* kann zum struturierten Aufbau der Funktionalität genutzt werden mit Syntax Highlight, Copy&Paste ..., Instant-Compile
+*nRepl* zum halten des aktuellen Zustandes, zur Transition des aktuellen Zustandes, zum Ausprobieren, bei Fragen zur
+
+*Wofür ist das alles gut*
+
+Für den Wechsel vom iterativen Entwickeln (edit-compile-run-fail-edit-...) zum inkrementellen (edit-fail-in-small-edit-fail-in-small-edit-behappy)
+
+Beispiel 1: ich will die funktion welche für eine folge von zahlen eine folge von Tupeln zurückgibt, jedes tupel enthält quadrat und quadratwurzel der eingabe
+
+(def input (range 1000))
+(def output (map (juxt #(* % %) #(Math/sqrt %)) input))
+
+Beispiel 2: Arbeit mit sehr grossen Datenstrukturen, manchmal hat man dann auch ein aha erlebnis, weil man sich die zwischenergebnisse bewusst macht, summe einer teilmenge der unendlichen folge von quadratzahlen, wobei ich
+nicht möchte das die ersten n quadratzahlen mehrfach berechnet werden.
+
+(def rands (repeatedly #(Math/random)))
+
+;;test the quality of the rands
+;;multiple calls do not imply multiple realisations of the sequence
+(take 10 rands)
+(apply + (take 10000 rands))
+
 ##Was ist eine Transaktion##
 
 Ist der koordinierte Zugriff auf n Inhalte durch p Prozesse, wobei n,p E N+ unter Sicherstellung bestimmter
