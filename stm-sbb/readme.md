@@ -20,7 +20,7 @@ Build
 
 Leiningen 2.3.1
 
-Build #2
+Build Ver. 2
 
 Clojure Maven Plugin
 <pre>
@@ -48,7 +48,7 @@ Clojure Maven Plugin
 					</execution>
 				</executions>
 			</plugin>
-<pre>
+</pre>
 
 ... und dann einfach mvn clojure:nrepl
 
