@@ -2,6 +2,33 @@
 Notizen zum Vortrag Software Transaction Memory (STM) am 26.11.2013 @ SBB
 </pre>
 
+#Was haben wir heute vor: ERFA-Livehack. Das klingt ein bischen hochgestochen.
+
+Wir vom Java:Core Team haben überlegt, welche Formate geeignet sind, um den Austausch und die Vernetzung unter den Software Entwicklern bei der SBB zu stärken.
+
+Da gibts das etablierte Format ERFA, das ist sehr powerpointlastig. Dann gibts am anderen Ende der Skala das Code Dojo. Da kann jeder (max. 6 Leute auf einmal) hinkommen und man lernt voneinander, niemand braucht themenspezifisches vorwissen, gemeinsames erarbeiten
+von wissen steht im vordergrund. Wir haben wir hier also keinen ERFA, aber auch kein Code Dojo. Ein neues Format zu etablieren ist, aber ein formaler oder administrativer Akt. Ergo heute unter dem ERFA Hut.
+ERFAs sind powerpoint lastig. Wir arbeiten aber mit unseren Programmiersprachen und Compilern, mit unseren IDEs und sonstigen Hilfsmitteln. Wir wollen den Livehack dazu nutzen, Arbeitstechniken und Werkzeug vorzustellen, 
+den Arbeitsstil zu diskutieren, ihr seit eingeladen, einfach reinzurufen, "Ja, aber" oder "Ja, genau" oder auch sonstwas zu sagen und so mitzuhelfen.
+
+#RAM is Disk, Disk is Tape, Tape is ...#
+
+Jim Gray, Turing Award Winner for seminal contributions to databases and transaction processing.
+
+Ich sage mal voraus, dass wir für bestimmte Anwendungsbereiche langfristig nur noch flüchtige speicher anwenden resp. der medienbruch zwischen transient (im Sinne der Anwendung) und persistent wegfallen wird. 
+SAP HANA, In-Memory Datenbanken, Caches als Beispiele ...
+und seien wir mal ehrlich, lasst uns an allen Kisten die Stecker ziehen, alles wieder hochfahren, was geht dann noch ... für lange zeit nichts mehr -> bis die cache kohärenz wieder hergestellt ist, unsere DMBMS, unsere Webserver, unsere Nameserver leben von caches und in-memory datenhaltung.
+
+dieses D (Durability) lassen wir heute mal weg und schauen, wie können wir transaktional transient arbeiten.
+
+Anwendungsbereiche fallen mir da sehr viele ein:
+
+Soziale Plattformen (Eventual Consistency bei Twitter)
+Online-Games
+Chat-Plattformen
+
+Oder allgemein: Konkurrierende Zugriff auf mehr als eine Speicherzelle "anwendungsübergreifend"|"allgemein" zu implementieren.
+
 #Software Transactional Memory @ SBB#
 
 ##Setup##
@@ -20,7 +47,7 @@ Build
 
 Leiningen 2.3.1
 
-Build Ver. 2
+Build #2
 
 Clojure Maven Plugin
 <pre>
@@ -48,7 +75,7 @@ Clojure Maven Plugin
 					</execution>
 				</executions>
 			</plugin>
-</pre>
+<pre>
 
 ... und dann einfach mvn clojure:nrepl
 
@@ -255,4 +282,76 @@ Zwei konkurrierende Transaktionen die genau eins der beiden Konten erleichtern w
 
 Warum: Invarianz ist eine semantische Verschränkung zweier Speicherzellen.
 
-Also: Programmierer muss genuine Intelligenz walten lassen und die Invarianz einprogrammieren, auch bei Nutzung von STM.
+Also: Programmierer muss genuine Intelligenz walten lassen und die Invarianz einprogrammieren. Ist das immer der Fall? Nein!
+-> Invarianzen, welche durch einen funktionalen Zusammenhang zweier Speicherzellen beschreibbar sind, muss ich explizit einprogrammieren.
+-> Invarianzen, welche durch eine Mengenbeziehung zwischen zwei Speicherzellen beschreibbar sind, dagegen nicht (z.B. in clojure dosync->alle veränderungen durch alter, commute, ref-set müssen in dosync stattfinden und sind teil der transaktion
+
+##STM in Clojure##
+
+STM in Clojure basiert auf der Verwendung von Referenztypen, namentlich des Referenztyps ref (koordinierter, synchronisierter Zugriff auf Speicher)
+
+###Wrap-Up: Referenztyp###
+
+Ein Referenztyp macht die Unterscheidung zwischen Identität und Zustand möglich. In objektorientierten Sprachen wie Java habe ich Klassen und Instanzen mit Eigenschaften und Verhalten. Bereits mit dieser Definition habe 
+ich das erste Problem am Hals. 
+
+Zitat: "Mit Eigenschaften" (Plural) mit dem Plural beginnt der Käse. 
+
+Wenn wir folgende Klasse haben:
+
+class Animal {
+	public int age; //years
+	public String type;
+	public Animal setAge(int age) {
+		this.age = age;
+		return this;
+	}
+	
+	public Animal setType(String type) {
+		this.type = type;
+		return this;
+	}
+}
+
+Animal firefly = new Animal().setAge(1).setType("firefly");
+firefly.setAge(20);
+firefly.setType("zebra");
+
+haben wir zwei Eigenschaften aber einen semantischen Zusammenhang zwischen den beiden Eigenschaften, Tiere haben artspezifische Maximalalter.
+Hier habe ich kurzfristig einen Zustand, der keinen Sinn ergibt.
+
+Wo liegt der Fehler, bei der Objektorientierung oder bei uns. Bei uns! Was ist der Fehler:
+
+Instanzen von Klassen haben _keine Eigenschaften_, sondern nur Verhalten. Verhalten ist rekursiv definiert und gibt im atomaren Fall ein Attribut des im aktuellen Context (zeitlich, räumlich) gültigen Zustandes zurück.
+
+Wenn wir Anfangen, so zu programmieren, können wir auch in Java solche Seiteneffekte vermeiden:
+
+Also:
+
+(1) Konstruktor- oder Factorybasierte Erzeugung von Klasseninstanzen
+(2) Keine Setter für Attribute, die einen inhaltlichen Zusammenhang mit anderen Attributen
+(3) Pure Funktionen ohne Seiteneffekte bevorzugen (ich habe mich kürzlich mit jemanden hier in der gruppe über statische methoden unterhalten, er meinte, dass wäre ja nicht objektorientiert, so what, wenn ich von der eingabe meines programmes bis zur ausgabe keinen zustand brauche, brauche ich weder instanzvariablen, noch instanzfunktionen noch klassenvariablen, ergo nur statische funktionen, ist dies nun schlecht, nein!!!
+    das kann mich in vielerlei hinsicht retten. parallelisierbarkeit, testbarkeit, idempotenz!!!
+    
+What is the clojure way!
+
+Referenztypen zeigen auf Identitäten und repräsentieren diese Identität während Ihrer Lebensdauer. Diese Identität erfährt Veränderungen. Veränderungen überführen einen Zustand der Identität in den nächsten Zustand. Ein Zustand wird aber durch die
+Veränderung nicht ungültig.
+Veränderungen sind stets atomar und durch Funktionsanwendung erreicht. Veränderungen werden auf Instanzen immutabler Datenstrukturen durchgeführt. Deswegen funktionale Sprache.
+
+in lighttable
+
+(def animal {})
+(assoc animal :age 1 :type "firefly")
+animal
+
+assoc ändert die identität von animal nicht. 
+
+besser sichtbar mit referenztyp atom, atom repräsentiert eine identität auch über zustandswechsel hinweg (synchron, unkoordiniert)
+
+(def animal (atom {}))
+@animal
+(swap! animal assoc :age 1 :type "firefly")
+@animal
+(swap! animal assoc :age 20 :type "zebra")
+@animal
