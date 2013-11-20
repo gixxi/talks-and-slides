@@ -2,7 +2,9 @@
 Notizen zum Vortrag Software Transaction Memory (STM) am 26.11.2013 @ SBB
 </pre>
 
-#Was haben wir heute vor: ERFA-Livehack. Das klingt ein bischen hochgestochen.
+#Was haben wir heute vor: ERFA-Livehack.#
+
+Das klingt ein bischen hochgestochen.
 
 Wir vom Java:Core Team haben überlegt, welche Formate geeignet sind, um den Austausch und die Vernetzung unter den Software Entwicklern bei der SBB zu stärken.
 
