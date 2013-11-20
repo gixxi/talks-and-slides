@@ -77,7 +77,7 @@ Clojure Maven Plugin
 					</execution>
 				</executions>
 			</plugin>
-<pre>
+</pre>
 
 ... und dann einfach mvn clojure:nrepl
 
