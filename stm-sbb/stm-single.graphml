@@ -391,7 +391,7 @@
           <y:Geometry height="10.0" width="10.0" x="295.0" y="-50.0"/>
           <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.962890625" modelName="custom" textColor="#000000" visible="true" width="65.658203125" x="-27.8291015625" y="-21.962890625">Read Point<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.962890625" modelName="custom" textColor="#FFFF00" visible="true" width="65.658203125" x="-27.8291015625" y="-21.962890625">Read Point<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -597,7 +597,7 @@
           <y:Geometry height="10.0" width="10.0" x="787.264" y="-50.0"/>
           <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.962890625" modelName="custom" textColor="#000000" visible="true" width="67.0234375" x="-28.51171875" y="-21.962890625">Write Point<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.962890625" modelName="custom" textColor="#FFFF00" visible="true" width="67.0234375" x="-28.51171875" y="-21.962890625">Write Point<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -634,7 +634,7 @@
           <y:Geometry height="10.0" width="10.0" x="415.0" y="404.40000000000003"/>
           <y:Fill color="#C0C0C0" transparent="false"/>
           <y:BorderStyle hasColor="false" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.962890625" modelName="custom" textColor="#000000" visible="true" width="312.87109375" x="-151.435546875" y="19.034554687500076">In-Transaction Values (not visible to the outer world)<y:LabelModel>
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="17.962890625" modelName="custom" textColor="#FFFF00" visible="true" width="312.87109375" x="-151.435546875" y="19.034554687500076">In-Transaction Values (not visible to the outer world)<y:LabelModel>
               <y:SmartNodeLabelModel distance="4.0"/>
             </y:LabelModel>
             <y:ModelParameter>
@@ -652,7 +652,7 @@
           <y:Geometry height="518.8" width="90.79999999999995" x="251.0" y="-115.39999999999998"/>
           <y:Fill color="#99CCFF5A" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.92578125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="79.826171875" x="5.486914062499977" y="4.0">Begin 
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.92578125" modelName="internal" modelPosition="t" textColor="#FFFF00" visible="true" width="79.826171875" x="5.486914062499977" y="4.0">Begin 
 Transaction1</y:NodeLabel>
           <y:Shape type="roundrectangle"/>
         </y:ShapeNode>
@@ -665,7 +665,7 @@ Transaction1</y:NodeLabel>
           <y:Geometry height="518.8" width="79.59999999999991" x="755.0" y="-115.39999999999998"/>
           <y:Fill color="#99CCFF5A" transparent="false"/>
           <y:BorderStyle color="#000000" type="line" width="1.0"/>
-          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.92578125" modelName="internal" modelPosition="t" textColor="#000000" visible="true" width="79.826171875" x="-0.11308593750004547" y="4.0">Commit
+          <y:NodeLabel alignment="center" autoSizePolicy="content" fontFamily="Dialog" fontSize="12" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="31.92578125" modelName="internal" modelPosition="t" textColor="#FFFF00" visible="true" width="79.826171875" x="-0.11308593750004547" y="4.0">Commit
 Transaction1</y:NodeLabel>
           <y:Shape type="roundrectangle"/>
         </y:ShapeNode>
@@ -711,7 +711,7 @@ Transaction1</y:NodeLabel>
           <y:Path sx="0.0" sy="0.0" tx="0.0" ty="0.0"/>
           <y:LineStyle color="#999999" type="line" width="6.0"/>
           <y:Arrows source="none" target="standard"/>
-          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.6171875" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#000000" visible="true" width="118.4296875" x="300.37960069444443" y="-41.30859375000003">Time (goes by)<y:LabelModel>
+          <y:EdgeLabel alignment="center" configuration="AutoFlippingLabel" distance="2.0" fontFamily="Dialog" fontSize="16" fontStyle="plain" hasBackgroundColor="false" hasLineColor="false" height="22.6171875" modelName="custom" preferredPlacement="anywhere" ratio="0.5" textColor="#FFFF00" visible="true" width="118.4296875" x="300.37960069444443" y="-41.30859375000003">Time (goes by)<y:LabelModel>
               <y:SmartEdgeLabelModel autoRotationEnabled="false" defaultAngle="0.0" defaultDistance="10.0"/>
             </y:LabelModel>
             <y:ModelParameter>
