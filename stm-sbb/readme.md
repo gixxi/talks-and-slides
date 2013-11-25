@@ -343,14 +343,17 @@ Ver채nderungen sind stets atomar und durch Funktionsanwendung erreicht. Ver채nde
 
 in lighttable
 
+<pre>
 (def animal {})
 (assoc animal :age 1 :type "firefly")
 animal
+</pre>
 
 assoc 채ndert die identit채t von animal nicht. 
 
 besser sichtbar mit referenztyp atom, atom repr채sentiert eine identit채t auch 체ber zustandswechsel hinweg (synchron, unkoordiniert)
 
+<pre>
 (def animal {})
 (def firefly (assoc animal :age 1 :type :firefly))
 (def zebra (assoc firefly :age 40 :type :zebra))
@@ -364,5 +367,5 @@ besser sichtbar mit referenztyp atom, atom repr채sentiert eine identit채t auch �
 
 firefly
 zebra
-
+</pre>
 
