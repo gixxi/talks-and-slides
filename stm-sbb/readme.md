@@ -351,9 +351,18 @@ assoc ändert die identität von animal nicht.
 
 besser sichtbar mit referenztyp atom, atom repräsentiert eine identität auch über zustandswechsel hinweg (synchron, unkoordiniert)
 
+(def animal {})
+(def firefly (assoc animal :age 1 :type :firefly))
+(def zebra (assoc firefly :age 40 :type :zebra))
+
 (def animal (atom {}))
-@animal
-(swap! animal assoc :age 1 :type "firefly")
-@animal
-(swap! animal assoc :age 20 :type "zebra")
-@animal
+(swap! animal assoc :age 1 :type :firefly)
+(def firefly @animal)
+
+(swap! animal assoc :age 40 :type :zebra)
+(def zebra @animal)
+
+firefly
+zebra
+
+
