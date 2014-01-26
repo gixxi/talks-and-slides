@@ -117,6 +117,20 @@ compound propositions.</p>
       (== q true))
 </pre>
 
-<p>The first constraint is that <em>:tobias</em> is a man, this proposition is true in terms of the previously defined factbase. The second constraint ground <em>q</em> to be true. So (true) gets returned, since tobias is a man. C'est tout.</p>
+<p>The first constraint is that <em>:tobias</em> is a man, this proposition is true in terms of the previously defined factbase. The second constraint grounds <em>q</em> to be true. So (true) gets returned, since tobias is a man. C'est tout.</p>
+
+<p>The logic interpreter answers the second query by return <em>()</em>, the empty list in Clojure. This means that no solution can be deduced or found that fulfills all constraints. Since </p>
+
+<pre>
+(== q true)
+</pre>
+
+<p>is an axiomatic constraint the other constraint</p>
+
+<pre>
+(mann :heinrich)
+</pre>
+
+<p>cannot be fulfilled. So <em>:heinrich:</em> is not a man in our <em>closed world</em>. C'est tout, aussie.</p>
 
 
